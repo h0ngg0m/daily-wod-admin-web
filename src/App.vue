@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg-grey-darken-4">
     <component :is="currentLayout" v-if="isRouterLoaded">
       <RouterView />
     </component>

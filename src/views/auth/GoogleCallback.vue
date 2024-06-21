@@ -8,21 +8,22 @@
 import { useRoute } from 'vue-router'
 import { onBeforeMount } from 'vue'
 import { postApi } from '@/utils/api'
-import { useUserStore } from '@/stores/user'
+import { useAdminStore } from '@/stores/admin'
 import router from '@/router'
+import type { JwtResponseDto } from '@/definitions/type'
 
 const route = useRoute()
-const { saveAccessToken } = useUserStore()
+const { saveAccessToken } = useAdminStore()
 
 onBeforeMount(async () => {
-  const response = await postApi('/admin-api/v1/auth/login/google', {
-    code: route.query.code
-  })
-  console.log("어드민 구글 로그인 요청")
-  console.log(response.data.data.accessToken)
-
-  if (response.status === 200 && response.data.meta.code === 200) {
-    saveAccessToken(response.data.data.accessToken)
+  const response = await postApi<{ code: string }, JwtResponseDto>(
+    '/admin-api/v1/auth/login/google',
+    {
+      code: route.query.code?.toString() ?? ''
+    }
+  )
+  if (response.status === 200 && response.data.code === 'S000') {
+    saveAccessToken(response.data?.data?.accessToken ?? '')
     await router.push('/')
   } else {
     await router.push('/auth/login')

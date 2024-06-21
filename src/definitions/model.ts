@@ -1,10 +1,11 @@
-import type { CityType } from '@/definitions/enums'
+import type { TWodType } from '@/definitions/enum'
 
-export interface Box {
-  id?: number
-  name: string
-  description: string
-  address: string
-  city: CityType
-  tel: string
+export interface Wod {
+  id: number
+  title: string
+  content: string
+  type: TWodType
+  wodDate: string
+  createdAt: string
+  updatedAt: string
 }

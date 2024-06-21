@@ -6,10 +6,6 @@ export function removeTokens(): void {
   localStorage.removeItem('refreshToken')
 }
 
-export function getAccessToken(): string | null {
-  return localStorage.getItem('accessToken')
-}
-
 export function getRefreshToken(): string | null {
   return localStorage.getItem('refreshToken')
 }

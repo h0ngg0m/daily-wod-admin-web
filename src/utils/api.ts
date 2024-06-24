@@ -1,8 +1,8 @@
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios'
-import { isTokenExpired, refreshTokens } from '@/utils/token'
+import { isTokenExpired } from '@/utils/token'
 import type { ApiResult } from '@/definitions/type'
-import router from '@/router'
 import { useAdminStore } from '@/stores/admin'
+import router from '@/router'
 
 const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,9 +13,12 @@ const instance: AxiosInstance = axios.create({
 })
 
 instance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const { getAccessToken } = useAdminStore()
     const accessToken = getAccessToken()
+    if (isTokenExpired(accessToken)) {
+      await router.push('/auth/login')
+    }
     config.headers['Authorization'] = accessToken
     return config
   },
@@ -25,37 +28,14 @@ instance.interceptors.request.use(
   }
 )
 
-// instance.interceptors.response.use(
-//   async (response) => {
-//     // if (response.status === 404) {
-//     //   await router.push('/error/404')
-//     // }
-//     return response
-//   },
-//   async (error) => {
-//     if (error.response?.status === 401) {
-//       let accessToken = getAccessToken()
-//
-//       if (!accessToken) {
-//         await router.push('/login')
-//         return
-//       }
-//
-//       if (isTokenExpired(accessToken)) {
-//         await refreshTokens()
-//         accessToken = getAccessToken()
-//       }
-//
-//       error.config.headers = {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${accessToken}`
-//       }
-//
-//       return await axios.request(error.config)
-//     }
-//     return Promise.reject(error)
-//   }
-// )
+instance.interceptors.response.use(
+  async (response) => {
+    return response
+  },
+  async (error) => {
+    return Promise.reject(error)
+  }
+)
 
 export async function getApi<R>(url: string): Promise<AxiosResponse<ApiResult<R>>> {
   return await instance.get<R, AxiosResponse<ApiResult<R>>, any>(url)

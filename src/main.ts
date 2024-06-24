@@ -11,7 +11,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import '@/assets/scss/common/index.scss'
-
+import { VDateInput } from 'vuetify/labs/VDateInput'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
@@ -29,6 +29,7 @@ const vuetify = createVuetify({
   }
 })
 
+app.component('VDateInput', VDateInput)
 app.use(pinia)
 app.use(router)
 app.use(vuetify)

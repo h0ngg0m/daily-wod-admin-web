@@ -1,6 +1,7 @@
 <template>
-  <v-card variant="tonal" class="d-flex pa-2">
+  <v-card variant="tonal" class="d-flex">
     <v-data-table-server
+      class="bg-grey-darken-4"
       v-model:page="page"
       v-model:items-per-page="itemsPerPage"
       v-model:sort-by="sortBy"
@@ -17,8 +18,8 @@
       <template #[`item.updatedAt`]="{ item }">
         {{ toDatetimeFormat(item.updatedAt?.toLocaleString() ?? '-') }}
       </template>
-    </v-data-table-server></v-card
-  >
+    </v-data-table-server>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -79,7 +80,7 @@ async function fetchItems(): Promise<void> {
   )
   loading.value = false
   items.value = data.data?.content ?? []
-  itemsLength.value = data.data?.totalElements ?? 0
+  itemsLength.value = data.data?.page.totalElements ?? 0
 }
 
 watchDebounced(() => [page.value, itemsPerPage.value, sortBy.value], fetchItems, {

@@ -1,11 +1,11 @@
 <template>
-  <v-app-bar title="Daily WOD 관리자" class="bg-grey-darken-3">
+  <v-app-bar title="Daily WOD 관리자" class="bg-grey-darken-4">
     <template #append>
       <v-btn @click="logout" icon="mdi-logout"></v-btn>
     </template>
   </v-app-bar>
 
-  <v-navigation-drawer :permanent="true" width="200" class="bg-grey-darken-3">
+  <v-navigation-drawer :permanent="true" width="200" class="bg-grey-darken-4">
     <LeftNav />
   </v-navigation-drawer>
 

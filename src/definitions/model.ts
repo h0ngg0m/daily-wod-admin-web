@@ -9,3 +9,10 @@ export interface Wod {
   createdAt: string
   updatedAt: string
 }
+
+export interface WodCreate {
+  title: string
+  content: string
+  type: TWodType
+  wodDate: string
+}

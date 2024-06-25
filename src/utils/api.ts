@@ -33,7 +33,7 @@ instance.interceptors.response.use(
     return response
   },
   async (error) => {
-    return Promise.reject(error)
+    return error.response
   }
 )
 

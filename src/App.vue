@@ -3,6 +3,7 @@
     <component :is="currentLayout" v-if="isRouterLoaded">
       <RouterView />
     </component>
+    <notifications position="bottom left" />
   </v-app>
 </template>
 

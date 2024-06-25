@@ -1,6 +1,6 @@
 <template>
   <div class="pa-2 w-100">
-    <ManagementHeader title="와드 관리">
+    <ManagementHeader title="와드 관리" icon="mdi-weight-lifter">
       <template #add-button>
         <WodCreateDialog />
       </template>

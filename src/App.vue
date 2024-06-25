@@ -3,7 +3,7 @@
     <component :is="currentLayout" v-if="isRouterLoaded">
       <RouterView />
     </component>
-    <notifications position="bottom left" />
+    <Notifications position="bottom left" />
   </v-app>
 </template>
 
@@ -14,6 +14,7 @@ import DefaultLayout from '@/layout/DefaultLayout.vue'
 import AuthLayout from '@/layout/AuthLayout.vue'
 import '@/fonts/SpoqaHanSansNeo.css'
 import ErrorLayout from '@/layout/ErrorLayout.vue'
+import { Notifications } from '@kyvg/vue3-notification'
 
 const route = useRoute()
 const layouts = {

@@ -18,17 +18,25 @@
       <template #[`item.updatedAt`]="{ item }">
         {{ toDatetimeFormat(item.updatedAt?.toLocaleString() ?? '-') }}
       </template>
+      <template #[`item.actions`]="{ item }">
+        <v-btn variant="flat" color="error" @click="deleteWod(item)">
+          <v-icon>mdi-trash-can-outline</v-icon>
+          <span>삭제</span>
+        </v-btn>
+      </template>
     </v-data-table-server>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { stringifyParams, toDatetimeFormat } from '../../../utils/common'
+import { stringifyParams, toDatetimeFormat } from '@/utils/common'
 import { ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
-import { getApi } from '@/utils/api'
+import { deleteApi, getApi } from '@/utils/api'
 import type { PageResult, SortItem } from '@/definitions/type'
 import type { Wod } from '@/definitions/model'
+import { useNotification } from '@kyvg/vue3-notification'
+const { notify } = useNotification()
 
 const HEADERS = [
   {
@@ -58,6 +66,10 @@ const HEADERS = [
   {
     title: '수정 일시',
     key: 'updatedAt'
+  },
+  {
+    title: '관리',
+    key: 'actions'
   }
 ]
 
@@ -83,6 +95,18 @@ async function fetchItems(): Promise<void> {
   itemsLength.value = data.data?.page.totalElements ?? 0
 }
 
+async function deleteWod(wod: Wod): Promise<void> {
+  if (confirm('와드를 삭제하시겠습니까?')) {
+    const response = await deleteApi(`/admin-api/v1/wods/${wod.id}`)
+    if (response.status === 204) {
+      notify({
+        title: '성공',
+        text: '와드가 삭제되었습니다.'
+      })
+      await fetchItems()
+    }
+  }
+}
 watchDebounced(() => [page.value, itemsPerPage.value, sortBy.value], fetchItems, {
   debounce: 500,
   immediate: true

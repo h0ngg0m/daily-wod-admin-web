@@ -49,6 +49,6 @@ export async function putApi<D, R>(url: string, data: D): Promise<AxiosResponse<
   return await instance.put<R, AxiosResponse<ApiResult<R>>, D>(url, data)
 }
 
-export async function deleteApi<R>(url: string): Promise<AxiosResponse<R>> {
-  return await instance.delete<R, AxiosResponse<R>, any>(url)
+export async function deleteApi<R>(url: string): Promise<AxiosResponse<ApiResult<R>>> {
+  return await instance.delete<R, AxiosResponse<ApiResult<R>>, any>(url)
 }
